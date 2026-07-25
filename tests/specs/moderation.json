@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Moderation menu opens from the main menu",
+    "steps": [
+      {
+        "send": { "callback": "moderation:menu" },
+        "expect": [{ "method": "editMessageText", "payload": { "text": "Set rules, spam limits, trusted members, and notification preferences." } }]
+      }
+    ]
+  },
+  {
+    "name": "/moderation validates manual actions",
+    "steps": [
+      {
+        "send": { "text": "/moderation" },
+        "expect": [{ "method": "sendMessage", "payload": { "text": "Reply to a member and send /moderation warn, mute, kick, ban, or trust." } }]
+      }
+    ]
+  }
+]

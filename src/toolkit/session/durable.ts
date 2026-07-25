@@ -144,6 +144,19 @@ export class ChatDO {
       }
     }
 
+    // Domain records use this intentionally tiny KV endpoint. Keys are addressed
+    // directly by the caller; no key listing or scanning is ever available.
+    if (url.pathname === "/data/value") {
+      if (request.method === "GET") {
+        const v = await this.state.storage.get<unknown>("domain");
+        return v === undefined ? new Response(null, { status: 204 }) : Response.json(v);
+      }
+      if (request.method === "PUT") {
+        await this.state.storage.put("domain", await request.json());
+        return new Response(null, { status: 204 });
+      }
+    }
+
     // Schedule a reminder + (re)arm the alarm to the earliest due one.
     if (url.pathname === "/remind" && request.method === "POST") {
       const rem = (await request.json()) as Reminder;

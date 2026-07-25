@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Admin command to manually verify users"
+              "text": "Reply to a member’s message with /verify to approve them."
             }
           }
         ],

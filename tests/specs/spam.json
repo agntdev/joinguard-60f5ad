@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Admin command to check spam thresholds"
+              "text": "Spam protection is on. It flags 3 matching messages or more than 5 messages in 10 seconds."
             }
           }
         ],
