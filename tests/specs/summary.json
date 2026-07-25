@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Request moderation summary report"
+              "text": "Moderation summary\nJoined: 0\nVerified: 0\nRemoved: 0\nSpam limits: 3 repeats, 5 messages in 10 seconds."
             }
           }
         ],

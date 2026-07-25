@@ -5,10 +5,8 @@
       {
         "expect": [
           {
-            "method": "sendMessage",
-            "payload": {
-              "text": "Initiates verification flow for new members"
-            }
+            "method": "editMessageText",
+            "payload": { "text": "New members receive a code when they join. If you have a pending code, send it here." }
           }
         ],
         "send": {

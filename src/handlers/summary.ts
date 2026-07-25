@@ -1,15 +1,16 @@
 import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { formatSummary, isAdmin, loadGroup } from "../groupguard.js";
+import { inlineButton, inlineKeyboard, registerMainMenuItem } from "../toolkit/index.js";
 
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-
-const composer = new Composer();
-
-composer.command("summary", async (ctx) => {
-  await ctx.reply("Request moderation summary report");
-});
-
+registerMainMenuItem({ label: "Summary", data: "summary:show", order: 30 });
+const composer = new Composer<Ctx>();
+async function sendSummary(ctx: Ctx, edit: boolean): Promise<void> {
+  if (!(await isAdmin(ctx))) { if (edit) await ctx.editMessageText("Only group admins can view this summary."); else await ctx.reply("Only group admins can view this summary."); return; }
+  const { state } = await loadGroup(ctx);
+  const options = { reply_markup: inlineKeyboard([[inlineButton("Back", "menu:main")]]) };
+  if (edit) await ctx.editMessageText(formatSummary(state), options); else await ctx.reply(formatSummary(state), options);
+}
+composer.command("summary", async (ctx) => sendSummary(ctx, false));
+composer.callbackQuery("summary:show", async (ctx) => { await ctx.answerCallbackQuery(); await sendSummary(ctx, true); });
 export default composer;
